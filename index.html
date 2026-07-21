@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行政院第九局 ── 九局宇宙・作品索引</title>
+<style>
+  :root{
+    --ink:#1a1a1a; --paper:#f4f1ea; --card:#fffdf8; --line:#d8d0c0;
+    --red:#8a2b2b; --muted:#6b6459; --accent:#3a4a5a;
+    --shadow:0 1px 3px rgba(0,0,0,.08),0 6px 20px rgba(0,0,0,.04);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Noto Serif TC","Songti TC",serif;
+    background:var(--paper); color:var(--ink); line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px 80px}
+  header{
+    text-align:center;padding:48px 20px 28px;
+    border-bottom:2px solid var(--ink);margin-bottom:4px;
+  }
+  header h1{font-size:2.1rem;letter-spacing:.15em;font-weight:900}
+  header .en{font-family:Georgia,serif;color:var(--muted);letter-spacing:.08em;font-size:.85rem;margin-top:6px}
+  header .tag{color:var(--red);font-size:.95rem;margin-top:14px;letter-spacing:.05em}
+  .counts{font-size:.8rem;color:var(--muted);margin-top:8px;font-family:Georgia,serif}
+  .controls{
+    position:sticky;top:0;z-index:20;background:var(--paper);
+    padding:16px 0 10px;border-bottom:1px solid var(--line);margin-bottom:22px;
+  }
+  #q{
+    width:100%;padding:11px 14px;font-size:1rem;font-family:inherit;
+    border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);
+  }
+  #q:focus{outline:none;border-color:var(--red)}
+  .filters{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .filters button{
+    font-family:inherit;font-size:.82rem;padding:5px 13px;border:1px solid var(--line);
+    background:var(--card);color:var(--muted);border-radius:20px;cursor:pointer;transition:.15s;
+  }
+  .filters button:hover{border-color:var(--red);color:var(--red)}
+  .filters button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .section{margin:34px 0 8px}
+  .section h2{
+    font-size:1.15rem;letter-spacing:.08em;color:var(--accent);
+    border-left:4px solid var(--red);padding-left:12px;
+  }
+  .section .sub{font-size:.8rem;color:var(--muted);margin:4px 0 0 16px;font-weight:400}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px}
+  .card{
+    display:block;text-decoration:none;color:inherit;background:var(--card);
+    border:1px solid var(--line);border-radius:10px;padding:15px 17px;
+    box-shadow:var(--shadow);transition:.15s;
+  }
+  .card:hover{transform:translateY(-2px);border-color:var(--red)}
+  .card .t{font-size:1.05rem;font-weight:700}
+  .card .d{font-size:.86rem;color:var(--muted);margin-top:5px;font-weight:400}
+  .card .m{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px;align-items:center}
+  .badge{font-size:.68rem;font-family:Georgia,serif;letter-spacing:.04em;
+    padding:2px 8px;border-radius:4px;background:#eee6d6;color:var(--muted)}
+  .badge.done{background:#e2ede2;color:#3a5a3a}
+  .badge.enemy{background:#efe0e0;color:var(--red)}
+  .cat-label{font-size:.72rem;color:var(--muted)}
+  .empty{text-align:center;color:var(--muted);padding:50px 0;display:none}
+  footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:60px;
+    padding-top:24px;border-top:1px solid var(--line);line-height:2}
+  footer a{color:var(--red);text-decoration:none}
+  .hidden{display:none!important}
+  mark{background:#f6e6a8;color:inherit;padding:0 1px;border-radius:2px}
+</style>
+</head>
+<body>
+<header>
+  <h1>行政院第九局</h1>
+  <div class="en">BUREAU 9 &nbsp;·&nbsp; THE BUREAU 9 UNIVERSE</div>
+  <div class="tag">荒謬的手段　×　嚴肅的目的</div>
+  <div class="counts" id="counts"></div>
+</header>
+
+<div class="wrap">
+  <div class="controls">
+    <input id="q" type="search" placeholder="搜尋作品、角色、關鍵字…（例：網師、依晴、耗材、廟會）" autocomplete="off">
+    <div class="filters" id="filters"></div>
+  </div>
+
+  <div id="list"></div>
+  <div class="empty" id="empty">找不到符合的作品。換個關鍵字試試。</div>
+</div>
+
+<footer>
+  九局宇宙・連載於 Threads &nbsp;<span style="color:var(--line)">|</span>&nbsp; #行政院第九局 #九局宇宙<br>
+  原始碼與全文 · <a href="https://github.com/bounce12340/bureau9" target="_blank">github.com/bounce12340/bureau9</a><br>
+  © 作者保留所有權利
+</footer>
+
+<script>
+const REPO="https://github.com/bounce12340/bureau9/blob/main/";
+const DATA=[
+ {cat:"本傳", sec:"本傳", title:"九局本傳・純小說全文", desc:"行政院第九局主線故事全文", file:"01_本傳全文/九局_純小說全文.txt", status:"", kw:"本傳 主線 高伯 阿豪 林董 小潔 梅姐 鞋店 裝修 茶行"},
+
+ {cat:"前傳", sec:"人物前傳", title:"大石前傳（阿豪）", desc:"Threads 發文全集＋故事線全覽", file:"02_人物前傳/大石前傳_Threads發文全集.md", status:"done", kw:"阿豪 陳志豪 大石 鞋店 台語 偵搜 餓狼 魏振國"},
+ {cat:"前傳", sec:"人物前傳", title:"梅姐前傳", desc:"Threads 發文全集＋故事線全覽", file:"02_人物前傳/梅姐前傳_Threads發文全集.md", status:"done", kw:"梅姐 財務 會計 統編 太后"},
+ {cat:"前傳", sec:"人物前傳", title:"李醫師前傳（李仁術）", desc:"完整大綱・十二集（prose 待寫）", file:"02_人物前傳/2026_04_06_李醫師前傳_完整大綱_十二集.md", status:"outline", kw:"李醫師 李仁術 上帝之手 仁心堂 外科 手術刀 中央山脈"},
+ {cat:"前傳", sec:"人物前傳", title:"高伯前傳", desc:"故事線全覽", file:"02_人物前傳/高伯前傳_故事線全覽.md", status:"outline", kw:"高伯 分局長 白手 留白 墨"},
+ {cat:"前傳", sec:"人物前傳", title:"小潔前傳", desc:"故事線全覽", file:"02_人物前傳/小潔前傳_故事線全覽.md", status:"outline", kw:"小潔 修羅姬 談判 高跟鞋 極道"},
+
+ {cat:"依晴", sec:"依晴線", title:"依晴本傳《觀察者的反擊》", desc:"一至十二集全集", file:"03_依晴線/_九局宇宙_依晴本傳_觀察者的反擊_一至十二集全集_.md", status:"done", kw:"依晴 陳依晴 觀察者 福麥 黃哥 木馬 撿到寶 外交系"},
+ {cat:"依晴", sec:"依晴線", title:"依晴篇", desc:"Threads 發文全集", file:"03_依晴線/2026_04_06_依晴篇_Threads發文全集.md", status:"done", kw:"依晴 陳依晴"},
+
+ {cat:"番外", sec:"番外與行動", title:"盟寵特攻隊・台北鼠道反滲透案", desc:"一至六集（威士忌 × 公主）", file:"04_番外與行動/2026_05_05_盟寵特攻隊_台北鼠道反滲透案_一至六集.md", status:"done", kw:"威士忌 公主 動物 士官長 特工 番外 A5和牛"},
+ {cat:"番外", sec:"番外與行動", title:"小潔 × 林董・國會說服指南", desc:"聯合行動", file:"04_番外與行動/小潔_林董_聯合行動_國會說服指南.md", status:"", kw:"小潔 林董 國會 說服 遊說"},
+
+ {cat:"反派", sec:"網師四部曲（反派本傳）", title:"第一部《回收》", desc:"8 集 66 則・一個結案的清晨", file:"05_網師四部曲/網師四部曲_回收_Threads發文.md", status:"enemy", kw:"網師 陸沉 回收 餓狼 顧承 敵方不可建模 照片"},
+ {cat:"反派", sec:"網師四部曲（反派本傳）", title:"第二部《少康》", desc:"10 集 81 則・一根深針的來歷", file:"05_網師四部曲/網師四部曲_少康_Threads發文.md", status:"enemy", kw:"網師 少康 深針 老臺商 越秀山 接班人 1988"},
+ {cat:"反派", sec:"網師四部曲（反派本傳）", title:"第三部《結網》", desc:"8 集 64 則・四敗與一張空白的臉", file:"05_網師四部曲/網師四部曲_結網_Threads發文.md", status:"enemy", kw:"網師 結網 里長 廟會 遶境 白手 四敗 阿豪 藍白拖"},
+ {cat:"反派", sec:"網師四部曲（反派本傳）", title:"第四部《刀與針》", desc:"10 集 80 則・全書完・〈隔海一桌〉", file:"05_網師四部曲/刀與針_Threads發文.md", status:"enemy", kw:"網師 刀與針 餓狼 謝明遠 木馬 隔海一桌 該你了 孤棋 白手"},
+ {cat:"反派", sec:"網師四部曲（反派本傳）", title:"網師四部曲・全文合集", desc:"四部＋外傳一冊・53 集 427 則", file:"05_網師四部曲/網師四部曲_全文合集.md", status:"enemy", kw:"合集 全文 網師 四部曲 春壤"},
+
+ {cat:"反派", sec:"春壤篇（外傳）", title:"《春壤篇》", desc:"17 集 136 則・謝明遠思想養針本傳・完", file:"06_春壤篇/春壤篇_Threads發文.md", status:"enemy", kw:"春壤 謝明遠 江品維 方之衡 溫玉書 卓文瀚 許哲銘 陳文彬 熄燈運動 耗材 守燈隊 演算法 同溫層 一盞沒熄的燈"},
+
+ {cat:"設定", sec:"設定集與準則", title:"角色設定集與故事線全覽 v7", desc:"全宇宙角色卡＋故事線（含春壤五人）", file:"07_設定集與準則/2026_07_14_行政院第九局_角色設定集與故事線全覽_v7.md", status:"", kw:"設定集 聖經 角色卡 世界觀 bible"},
+ {cat:"設定", sec:"設定集與準則", title:"綜合寫作準則（情緒停頓強化版 v3.1）", desc:"創作準則", file:"07_設定集與準則/2026_05_05_九局宇宙_綜合寫作準則_情緒停頓強化版_v3_1.md", status:"", kw:"準則 寫作 show don't tell 停頓"},
+ {cat:"設定", sec:"設定集與準則", title:"發文格式準則 v1.1", desc:"Threads 發文格式規範", file:"07_設定集與準則/發文格式準則_v1.1.md", status:"", kw:"格式 hashtag 標題 檔案編號 B9"},
+ {cat:"設定", sec:"設定集與準則", title:"發文排程總表", desc:"春壤 × 刀與針 交錯連載順序（全域序 1–27）", file:"07_設定集與準則/發文排程總表.md", status:"", kw:"排程 發文順序 交錯 區塊"},
+];
+
+const CATS=["全部","本傳","前傳","依晴","番外","反派","設定"];
+let activeCat="全部", queryStr="";
+
+const fEl=document.getElementById("filters");
+CATS.forEach(c=>{
+  const b=document.createElement("button");
+  b.textContent=c; if(c==="全部")b.classList.add("on");
+  b.onclick=()=>{activeCat=c;[...fEl.children].forEach(x=>x.classList.remove("on"));b.classList.add("on");render();};
+  fEl.appendChild(b);
+});
+
+const statusBadge=s=>{
+  if(s==="done")return '<span class="badge done">完稿</span>';
+  if(s==="enemy")return '<span class="badge enemy">反派本傳</span>';
+  if(s==="outline")return '<span class="badge">大綱</span>';
+  return "";
+};
+const esc=s=>s.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+const hl=(s,q)=>{ if(!q)return esc(s); try{return esc(s).replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi'),'<mark>$1</mark>');}catch(e){return esc(s);} };
+
+function render(){
+  const list=document.getElementById("list"); list.innerHTML="";
+  const q=queryStr.trim().toLowerCase();
+  const shown=DATA.filter(d=>{
+    if(activeCat!=="全部"&&d.cat!==activeCat)return false;
+    if(!q)return true;
+    return (d.title+" "+d.desc+" "+d.kw).toLowerCase().includes(q);
+  });
+  const secs=[];
+  shown.forEach(d=>{ if(!secs.includes(d.sec))secs.push(d.sec); });
+  secs.forEach(sec=>{
+    const items=shown.filter(d=>d.sec===sec);
+    const wrap=document.createElement("div"); wrap.className="section";
+    wrap.innerHTML=`<h2>${sec}</h2>`;
+    const grid=document.createElement("div"); grid.className="grid";
+    items.forEach(d=>{
+      const a=document.createElement("a");
+      a.className="card"; a.href=REPO+encodeURI(d.file); a.target="_blank"; a.rel="noopener";
+      a.innerHTML=`<div class="t">${hl(d.title,q)}</div>
+        <div class="d">${hl(d.desc,q)}</div>
+        <div class="m"><span class="cat-label">${d.cat}</span>${statusBadge(d.status)}</div>`;
+      grid.appendChild(a);
+    });
+    wrap.appendChild(grid); list.appendChild(wrap);
+  });
+  document.getElementById("empty").style.display=shown.length?"none":"block";
+}
+
+document.getElementById("q").addEventListener("input",e=>{queryStr=e.target.value;render();});
+document.getElementById("counts").textContent=
+  `五部主系列 · ${DATA.filter(d=>d.status==="enemy").length} 部反派本傳 · 全 ${DATA.length} 部作品`;
+render();
+</script>
+</body>
+</html>
